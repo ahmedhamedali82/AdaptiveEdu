@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""AdaptiveEdu — lean project plan (no repeated slides)."""
+"""AdaptiveEdu project plan — Telegram study bot + two Google Sheets."""
 
 from pathlib import Path
 import shutil
@@ -23,6 +23,7 @@ TEAL = RGBColor(0x0E, 0x8C, 0x7E)
 GOLD = RGBColor(0xE6, 0x9B, 0x2D)
 ORANGE = RGBColor(0xE8, 0x78, 0x30)
 GREEN = RGBColor(0x2E, 0x8C, 0x5A)
+RED = RGBColor(0xB9, 0x1C, 0x1C)
 LIGHT = RGBColor(0xF6, 0xF8, 0xFB)
 SOFT_TEAL = RGBColor(0xE4, 0xF4, 0xF1)
 SOFT_BLUE = RGBColor(0xE6, 0xEE, 0xF8)
@@ -33,6 +34,10 @@ WHITE = RGBColor(0xFF, 0xFF, 0xFF)
 DARK = RGBColor(0x1C, 0x24, 0x30)
 MUTED = RGBColor(0x5A, 0x66, 0x76)
 PAGE = {"n": 0}
+
+SHEET_STUDENTS = "https://docs.google.com/spreadsheets/d/17A-hQ6jQ7QJrcZ4f5f02O82PKKAtQ2gTiJHtv71LWI4"
+SHEET_CURR = "https://docs.google.com/spreadsheets/d/10JNorDKgaesXGobuq_9sHipzRp-DOjxGAFZEV5D7Hwk"
+GITHUB = "https://github.com/ahmedhamedali82/AdaptiveEdu"
 
 
 def rgb_fill(shape, color):
@@ -84,14 +89,14 @@ def chrome(slide, footer):
     add_rect(slide, 0, 0, W, H, WHITE)
     add_rect(slide, 0, 0, Inches(0.12), H, NAVY)
     add_rect(slide, Inches(0.12), Inches(7.22), Inches(13.213), Inches(0.28), LIGHT)
-    add_text(slide, Inches(0.35), Inches(7.22), Inches(10), Inches(0.28), footer, size=11, color=MUTED, anchor=MSO_ANCHOR.MIDDLE)
+    add_text(slide, Inches(0.35), Inches(7.22), Inches(10.5), Inches(0.28), footer, size=11, color=MUTED, anchor=MSO_ANCHOR.MIDDLE)
     PAGE["n"] += 1
     add_text(slide, Inches(11.5), Inches(7.22), Inches(1.5), Inches(0.28), str(PAGE["n"]), size=11, color=MUTED, align=PP_ALIGN.RIGHT, anchor=MSO_ANCHOR.MIDDLE)
 
 
 def header(slide, kicker, title, footer):
     chrome(slide, footer)
-    add_text(slide, Inches(0.4), Inches(0.16), Inches(12.4), Inches(0.26), kicker, size=13, bold=True, color=NAVY)
+    add_text(slide, Inches(0.4), Inches(0.16), Inches(12.4), Inches(0.26), kicker, size=13, bold=True, color=TEAL)
     add_text(slide, Inches(0.4), Inches(0.40), Inches(12.4), Inches(0.44), title, size=24, bold=True, color=NAVY2)
     add_rect(slide, Inches(0.4), Inches(0.88), Inches(1.4), Inches(0.06), NAVY)
 
@@ -104,20 +109,36 @@ def card(slide, l, t, w, h, fill, title, body, bar=None, tsize=16, bsize=14):
     add_text(slide, l + Inches(0.2), t + Inches(0.55), w - Inches(0.35), h - Inches(0.7), body, size=bsize, color=DARK)
 
 
-def pic(slide, path, left, top, width):
-    slide.shapes.add_picture(str(path), left, top, width=width)
+def pic(slide, name, left, top, width):
+    for p in (DIAG / name, ASSETS / name, ASSETS / name.replace(".png", ".jpg")):
+        if p.exists():
+            slide.shapes.add_picture(str(p), left, top, width=width)
+            return
 
 
 def copy_imgs():
-    mapping = {
-        "mylesson_overview.png": "personatutor_overview.png",
-        "mylesson_n8n_flow.png": "personatutor_n8n_flow.png",
-        "personatutor_milestones.png": "personatutor_milestones.png",
-    }
-    for src_name, dest_name in mapping.items():
-        srcp = ASSETS / src_name
-        if srcp.exists():
-            shutil.copy2(srcp, DIAG / dest_name)
+    pairs = [
+        ("adaptiveedu_two_sheets.jpg", "adaptiveedu_two_sheets.jpg"),
+        ("adaptiveedu_milestones_2weeks.jpg", "adaptiveedu_milestones.jpg"),
+        ("adaptiveedu_milestones.jpg", "adaptiveedu_milestones.jpg"),
+    ]
+    for src, dest in pairs:
+        sp = ASSETS / src
+        if sp.exists() and dest == "adaptiveedu_milestones.jpg" and src.endswith("2weeks.jpg"):
+            shutil.copy2(sp, DIAG / dest)
+            break
+    for src, dest in [
+        ("adaptiveedu_two_sheets.jpg", "adaptiveedu_two_sheets.jpg"),
+    ]:
+        sp = ASSETS / src
+        if sp.exists():
+            shutil.copy2(sp, DIAG / dest)
+    # 2-week timeline if present
+    two = ASSETS / "adaptiveedu_milestones_2weeks.jpg"
+    if two.exists():
+        shutil.copy2(two, DIAG / "adaptiveedu_milestones.jpg")
+    elif (ASSETS / "adaptiveedu_milestones.jpg").exists() and not (DIAG / "adaptiveedu_milestones.jpg").exists():
+        shutil.copy2(ASSETS / "adaptiveedu_milestones.jpg", DIAG / "adaptiveedu_milestones.jpg")
 
 
 def build():
@@ -126,157 +147,224 @@ def build():
     prs = Presentation()
     prs.slide_width = W
     prs.slide_height = H
-    f = "AdaptiveEdu  ·  Project plan"
+    f = "AdaptiveEdu  ·  Graduation project plan"
 
     # 1 Cover
     s = blank(prs)
     add_rect(s, 0, 0, W, H, NAVY)
     add_rect(s, Inches(8.6), 0, Inches(4.733), H, NAVY2)
-    add_text(s, Inches(0.55), Inches(1.5), Inches(7.6), Inches(0.35), "DEPI GRADUATION PROJECT", size=14, bold=True, color=TEAL)
-    add_text(s, Inches(0.55), Inches(2.0), Inches(7.6), Inches(1.2), "AdaptiveEdu", size=44, bold=True, color=WHITE)
-    add_text(s, Inches(0.55), Inches(3.4), Inches(7.6), Inches(1.4), "Personal lessons with LLM + n8n.\nNot one fixed book for every student.", size=20, color=WHITE)
-    add_text(s, Inches(0.55), Inches(5.2), Inches(7.6), Inches(0.8), "4-week plan  ·  Proposal → Design → Build → Deliver", size=16, color=WHITE)
-    for i, line in enumerate(["Problem", "n8n workflow", "Tools & outcomes", "4-week milestones", "Deliverables", "Do this week"]):
-        add_text(s, Inches(8.9), Inches(1.8 + i * 0.7), Inches(4.1), Inches(0.55), f"{i+1}  {line}", size=16, color=WHITE)
+    add_text(s, Inches(0.55), Inches(1.35), Inches(7.6), Inches(0.32), "DEPI GRADUATION PROJECT", size=14, bold=True, color=TEAL)
+    add_text(s, Inches(0.55), Inches(1.85), Inches(7.6), Inches(1.0), "AdaptiveEdu", size=44, bold=True, color=WHITE)
+    add_text(
+        s, Inches(0.55), Inches(3.15), Inches(7.6), Inches(1.6),
+        "A Telegram study bot for 1st Secondary.\nThe next lesson. A short quiz.\nPass to continue. Fail to retry simpler.",
+        size=20, color=WHITE,
+    )
+    add_text(s, Inches(0.55), Inches(5.1), Inches(7.6), Inches(0.7), "n8n  ·  two Google Sheets  ·  Telegram", size=16, color=WHITE)
+    toc = ["Problem", "How it works", "Two Google Sheets", "n8n workflow", "Pass / Fail rule", "2-week plan", "Deliverables"]
+    for i, line in enumerate(toc):
+        add_text(s, Inches(8.9), Inches(1.55 + i * 0.65), Inches(4.1), Inches(0.5), f"{i+1}  {line}", size=16, color=WHITE)
     PAGE["n"] += 1
     add_text(s, Inches(12.2), Inches(7.15), Inches(0.9), Inches(0.28), "1", size=11, color=WHITE, align=PP_ALIGN.RIGHT)
 
-    # 2 Problem + solution (was slides 2+3+4)
+    # 2 Problem + solution
     s = blank(prs)
-    header(s, "WHY + WHAT", "Problem and solution", f)
+    header(s, "WHY THIS PROJECT", "Problem and solution", f)
     card(
         s, Inches(0.4), Inches(1.15), Inches(6.15), Inches(5.7), SOFT_ORANGE,
         "Problem",
-        "One fixed curriculum for all.\n\nSame pace. Same examples.\n\nWeak students fall behind.\nStrong students get bored.\n\nTeachers cannot rewrite every lesson by hand.",
-        bar=ORANGE, tsize=18, bsize=16,
+        "One class. One pace. One book.\n\nA student who fails a lesson still moves on.\nA teacher cannot follow every student by hand.\n\nWe need a simple path:\nfinish this lesson before the next one.",
+        bar=ORANGE, tsize=20, bsize=17,
     )
     card(
         s, Inches(6.75), Inches(1.15), Inches(6.15), Inches(5.7), SOFT_GREEN,
         "Solution — AdaptiveEdu",
-        "A personalized AI agent.\n\nStudent asks → agent builds content for that student.\n\nInput: prompt + level + goal\nProcess: n8n + LLM + profile\nOutput: personal lesson + quiz\n\nLearning fits the learner.",
-        bar=GREEN, tsize=18, bsize=16,
+        "A Telegram bot linked to the real 1st Secondary list of subjects.\n\nThe student sends an ID.\nThe bot sends the lesson that is due.\nThen a 3-question quiz.\n\nPass: next lesson.\nFail: same lesson, simpler text.\nStill stuck: the teacher can step in.",
+        bar=GREEN, tsize=20, bsize=17,
     )
 
-    # 3 Objectives (slim — 4 only, drop overlap with outcomes)
+    # 3 Student journey
     s = blank(prs)
-    header(s, "OBJECTIVES", "What we will achieve", f)
-    objs = [
-        ("1  Personalize", "Generate content per student request and level."),
-        ("2  Automate", "Run the full flow in n8n with little manual work."),
-        ("3  Track", "Save each request and output for teacher review."),
-        ("4  Deliver", "ZIP, PPT, docs, GitHub, 2–5 min video."),
+    header(s, "STUDENT JOURNEY", "One path. Easy to demo.", f)
+    steps = [
+        ("1", "Send ID", "S1-1001\nor\nS1-1001 Integrated Sciences"),
+        ("2", "Get lesson", "Only the lesson\nthat is due"),
+        ("3", "Take quiz", "Reply with\n3 letters\nC B A"),
+        ("4", "See result", "Pass or Fail\nsaved in Sheets"),
+        ("5", "Next step", "Pass → next lesson\nFail → retry simple"),
     ]
-    for i, (t, b) in enumerate(objs):
-        r, c = divmod(i, 2)
-        card(s, Inches(0.4 + c * 6.35), Inches(1.2 + r * 2.85), Inches(6.15), Inches(2.65), LIGHT, t, b, bar=TEAL, tsize=18, bsize=16)
+    for i, (n, t, b) in enumerate(steps):
+        x = 0.4 + i * 2.56
+        add_round(s, Inches(x), Inches(1.3), Inches(2.4), Inches(5.5), [SOFT_TEAL, SOFT_BLUE, SOFT_GOLD, SOFT_GREEN, SOFT_ORANGE][i])
+        add_round(s, Inches(x + 0.85), Inches(1.55), Inches(0.7), Inches(0.7), TEAL)
+        add_text(s, Inches(x + 0.85), Inches(1.55), Inches(0.7), Inches(0.7), n, size=20, bold=True, color=WHITE, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+        add_text(s, Inches(x + 0.12), Inches(2.45), Inches(2.16), Inches(0.7), t, size=18, bold=True, color=NAVY, align=PP_ALIGN.CENTER)
+        add_text(s, Inches(x + 0.12), Inches(3.3), Inches(2.16), Inches(3.1), b, size=15, color=DARK, align=PP_ALIGN.CENTER)
 
-    # 4 How it works = user flow + n8n (was 6+7+8)
+    # 4 Two sheets
     s = blank(prs)
-    header(s, "HOW IT WORKS", "Student path + n8n nodes", f)
-    pic(s, DIAG / "personatutor_n8n_flow.png", Inches(0.4), Inches(1.05), Inches(12.5))
-    # tiny caption strip under image if space - add 6 short node labels as footer cards
+    header(s, "DATA", "Two Google Sheets the bot uses", f)
+    pic(s, "adaptiveedu_two_sheets.jpg", Inches(7.55), Inches(1.15), Inches(5.4))
+    card(
+        s, Inches(0.4), Inches(1.15), Inches(6.9), Inches(2.7), SOFT_BLUE,
+        "Sheet 1 — Students",
+        "Who is this student?\nID, first name, last name, email, grade.\nn8n writes: Telegram chat, current lesson, last score, Pass/Fail.",
+        bar=NAVY2, tsize=18, bsize=15,
+    )
+    card(
+        s, Inches(0.4), Inches(4.05), Inches(6.9), Inches(2.8), SOFT_TEAL,
+        "Sheet 2 — Curriculum",
+        "Subjects: 1st Secondary list.\nLessons: ordered lessons + quiz answers.\nResults: n8n appends every quiz (never update a row).",
+        bar=TEAL, tsize=18, bsize=15,
+    )
+
+    # 5 Sheet links + n8n columns
+    s = blank(prs)
+    header(s, "SHEET LINKS", "Open these in the demo", f)
+    card(
+        s, Inches(0.4), Inches(1.15), Inches(12.5), Inches(2.15), SOFT_BLUE,
+        "Students",
+        SHEET_STUDENTS + "\nTab name: Students   ·   Match in n8n on studentID",
+        bar=NAVY2, tsize=18, bsize=15,
+    )
+    card(
+        s, Inches(0.4), Inches(3.5), Inches(12.5), Inches(3.35), SOFT_TEAL,
+        "Curriculum",
+        SHEET_CURR + "\nTabs: Subjects (read)  ·  Lessons (read)  ·  Results (append only)\nPass mark in Lessons = 5. Score is out of 9 (3 questions × 3 points).",
+        bar=TEAL, tsize=18, bsize=15,
+    )
+
+    # 6 n8n flow
+    s = blank(prs)
+    header(s, "N8N", "The simplest workflow that still does the whole job", f)
+    pic(s, "adaptiveedu_n8n_flow.jpg", Inches(0.35), Inches(1.05), Inches(12.6))
+    add_text(
+        s, Inches(0.45), Inches(6.35), Inches(12.4), Inches(0.7),
+        "Two message types only.  ID  →  send lesson.    Three letters  →  grade quiz.",
+        size=16, bold=True, color=NAVY, align=PP_ALIGN.CENTER,
+    )
+
+    # 7 Nodes
+    s = blank(prs)
+    header(s, "N8N NODES", "What each node does", f)
     nodes = [
-        ("1 Trigger", "Form / Telegram"),
-        ("2 Profile", "Google Sheet"),
-        ("3 LLM", "Generate lesson"),
-        ("4 Format", "Code / Set"),
-        ("5 Log", "Save run"),
-        ("6 Send", "Email / Telegram"),
+        ("Telegram Trigger", "n8n-nodes-base.telegramTrigger\nNew student message."),
+        ("Read message", "n8n-nodes-base.code\nID or quiz answer?"),
+        ("IF student ID", "n8n-nodes-base.if\ntrue = ID  ·  false = quiz"),
+        ("Get students", "n8n-nodes-base.googleSheets\nRead Students tab."),
+        ("Get lessons", "n8n-nodes-base.googleSheets\nRead Lessons tab."),
+        ("Pick next lesson", "n8n-nodes-base.code\nDue lesson, or retry if Fail."),
+        ("Save open lesson", "n8n-nodes-base.googleSheets\nUpdate current lesson."),
+        ("Send lesson + quiz", "n8n-nodes-base.telegram\nLesson text + 3 questions."),
+        ("Get students for quiz", "n8n-nodes-base.googleSheets\nFind the student again."),
+        ("Get lessons for quiz", "n8n-nodes-base.googleSheets\nLoad answers to grade."),
+        ("Grade quiz", "n8n-nodes-base.code\nMatch A–D. Score / 9."),
+        ("Save score", "n8n-nodes-base.googleSheets\nUpdate lastScore / lastResult."),
+        ("Append result", "n8n-nodes-base.googleSheets\nAppend one Results row."),
+        ("Send result", "n8n-nodes-base.telegram\nPass or Fail message."),
     ]
     for i, (t, b) in enumerate(nodes):
-        x = 0.4 + i * 2.12
-        add_round(s, Inches(x), Inches(5.85), Inches(2.02), Inches(1.15), SOFT_TEAL if i % 2 == 0 else LIGHT)
-        add_text(s, Inches(x + 0.08), Inches(5.95), Inches(1.86), Inches(0.4), t, size=13, bold=True, color=NAVY)
-        add_text(s, Inches(x + 0.08), Inches(6.35), Inches(1.86), Inches(0.5), b, size=12, color=DARK)
+        r, c = divmod(i, 7)
+        x = Inches(0.28 + c * 1.86)
+        y = Inches(1.08 + r * 3.05)
+        add_round(s, x, y, Inches(1.76), Inches(2.88), LIGHT if i % 2 == 0 else SOFT_TEAL)
+        icon = {
+            "Telegram Trigger": "telegram.png",
+            "Read message": "code.png",
+            "IF student ID": "if.png",
+            "Get students": "sheets.png",
+            "Get lessons": "sheets.png",
+            "Pick next lesson": "code.png",
+            "Save open lesson": "sheets.png",
+            "Send lesson + quiz": "telegram.png",
+            "Get students for quiz": "sheets.png",
+            "Get lessons for quiz": "sheets.png",
+            "Grade quiz": "code.png",
+            "Save score": "sheets.png",
+            "Append result": "sheets.png",
+            "Send result": "telegram.png",
+        }[t]
+        ip = DIAG / "n8n_icons" / icon
+        if ip.exists():
+            s.shapes.add_picture(str(ip), x + Inches(0.58), y + Inches(0.12), Inches(0.58), Inches(0.58))
+        add_text(s, x + Inches(0.06), y + Inches(0.78), Inches(1.64), Inches(0.7), t, size=11, bold=True, color=NAVY, align=PP_ALIGN.CENTER)
+        add_text(s, x + Inches(0.06), y + Inches(1.48), Inches(1.64), Inches(1.28), b, size=10, color=DARK, align=PP_ALIGN.CENTER)
 
-    # 5 Prompt (unique — keep)
+    # 8 Pass fail
     s = blank(prs)
-    header(s, "PROMPT TEMPLATE", "Same structure. Different student data.", f)
-    add_round(s, Inches(0.4), Inches(1.15), Inches(12.5), Inches(5.7), SOFT_BLUE)
-    add_text(
-        s, Inches(0.7), Inches(1.4), Inches(12.0), Inches(5.2),
-        "Role: You are a school tutor in Egypt.\n"
-        "Student: {{name}}  ·  Level: {{level}}  ·  Subject: {{subject}}\n"
-        "Request: {{student_prompt}}\n\n"
-        "Task: Create a short personal lesson.\n"
-        "Format:\n"
-        "1) Title\n"
-        "2) 5 key points (simple English)\n"
-        "3) One Egypt school example\n"
-        "4) 3 practice questions\n"
-        "5) One tip for next study session\n\n"
-        "Rules: No fake facts. If unsure, say so. Keep under 350 words.",
-        size=18, color=DARK,
+    header(s, "RULE", "Pass, fail, and the teacher", f)
+    card(
+        s, Inches(0.4), Inches(1.15), Inches(6.15), Inches(5.7), SOFT_GREEN,
+        "Pass  ·  5 or more / 9",
+        "The lesson is done.\n\nStudents sheet: lastResult = Pass.\nResults sheet: one new row.\n\nNext time the student sends the ID, the bot opens the next lesson number.",
+        bar=GREEN, tsize=20, bsize=17,
+    )
+    card(
+        s, Inches(6.75), Inches(1.15), Inches(6.15), Inches(5.7), SOFT_ORANGE,
+        "Fail  ·  below 5",
+        "The lesson is not done.\n\nStudents sheet: lastResult = Fail.\nThe lesson number does not go up.\n\nNext ID message: same lesson, simpler text.\nIf still stuck, a teacher can help by hand.",
+        bar=ORANGE, tsize=20, bsize=17,
     )
 
-    # 6 Tools + outcomes (was 10+11)
+    # 9 Tools
     s = blank(prs)
-    header(s, "TOOLS & OUTCOMES", "Stack + what success looks like", f)
+    header(s, "TOOLS", "Small stack. Easy to explain.", f)
     tools = [
-        ("n8n", "Workflow: trigger → LLM → send"),
-        ("LLM", "ChatGPT / Gemini / Groq"),
-        ("Sheets", "Profiles + activity log"),
-        ("Telegram / Gmail", "Ask and deliver"),
+        ("Telegram", "The only student screen."),
+        ("n8n", "Reads sheets, grades, sends."),
+        ("Students sheet", "Who the student is now."),
+        ("Curriculum sheet", "What to teach + quiz log."),
+        ("Code nodes", "Pick lesson. Grade A–D."),
+        ("GitHub", GITHUB.replace("https://", "")),
     ]
     for i, (t, b) in enumerate(tools):
-        card(s, Inches(0.4 + i * 3.2), Inches(1.15), Inches(3.05), Inches(2.5), SOFT_TEAL, t, b, bar=TEAL, tsize=15, bsize=14)
-    outs = [
-        ("Working agent", "Ask → personal lesson arrives."),
-        ("Workflow JSON", "Importable n8n + AI node."),
-        ("Teacher log", "Sheet of requests/outputs."),
-        ("DEPI package", "ZIP, PPT, docs, GitHub, video."),
-    ]
-    for i, (t, b) in enumerate(outs):
-        card(s, Inches(0.4 + i * 3.2), Inches(3.95), Inches(3.05), Inches(2.9), SOFT_GREEN, t, b, bar=GREEN, tsize=15, bsize=14)
+        r, c = divmod(i, 3)
+        card(s, Inches(0.4 + c * 4.22), Inches(1.15 + r * 2.9), Inches(4.05), Inches(2.7), [SOFT_TEAL, SOFT_BLUE, SOFT_GOLD][c], t, b, bar=TEAL, tsize=18, bsize=16)
 
-    # 7 Milestones 4 weeks (was 12+13)
+    # 10 Demo script
     s = blank(prs)
-    header(s, "MILESTONES", "4-week delivery", f)
+    header(s, "LIVE DEMO", "Say this. Do this. 2 minutes.", f)
+    demo = [
+        ("1", "Open Telegram", "Send: S1-1001"),
+        ("2", "Show the bot reply", "Lesson 1 text + 3 questions"),
+        ("3", "Send answers", "C B A  (or any 3 letters)"),
+        ("4", "Open Students sheet", "lastScore and lastResult filled"),
+        ("5", "Open Results tab", "A new row was appended"),
+        ("6", "If Fail", "Send S1-1001 again → same lesson, simpler"),
+    ]
+    for i, (n, t, b) in enumerate(demo):
+        y = 1.15 + i * 0.95
+        add_round(s, Inches(0.4), Inches(y), Inches(12.5), Inches(0.88), SOFT_TEAL if i % 2 == 0 else LIGHT)
+        add_round(s, Inches(0.55), Inches(y + 0.16), Inches(0.55), Inches(0.55), TEAL)
+        add_text(s, Inches(0.55), Inches(y + 0.16), Inches(0.55), Inches(0.55), n, size=16, bold=True, color=WHITE, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+        add_text(s, Inches(1.35), Inches(y + 0.12), Inches(4.3), Inches(0.64), t, size=18, bold=True, color=NAVY, anchor=MSO_ANCHOR.MIDDLE)
+        add_text(s, Inches(5.8), Inches(y + 0.12), Inches(6.8), Inches(0.64), b, size=16, color=DARK, anchor=MSO_ANCHOR.MIDDLE)
+
+    # 11 Weeks
+    s = blank(prs)
+    header(s, "PLAN", "Two weeks to delivery", f)
+    pic(s, "adaptiveedu_milestones.jpg", Inches(0.4), Inches(1.05), Inches(12.5))
     miles = [
-        ("Week 1", "Proposal + GitHub", "Problem, objectives, tools, outcomes.\nTeam roles. Fixed GitHub URL."),
-        ("Week 2", "Design", "n8n canvas. Prompt templates.\nSheet columns. User flow."),
-        ("Week 3", "Build + test", "Trigger → profile → LLM → send.\nTest 3 student personas."),
-        ("Week 4", "Docs + delivery", "Docs, final PPT, 2–5 min video.\nZIP + defense prep."),
+        ("Week 1", "Sheets live.\nImport n8n JSON.\nConnect Telegram + Sheets.\nDemo ID → lesson."),
+        ("Week 2", "Grade quiz + Pass/Fail.\nTest 3 IDs.\nVideo + this PPT.\nPush GitHub and submit."),
     ]
-    for i, (w, t, b) in enumerate(miles):
-        card(s, Inches(0.4 + i * 3.2), Inches(1.2), Inches(3.05), Inches(5.6), [SOFT_TEAL, SOFT_BLUE, SOFT_GOLD, SOFT_GREEN][i], f"{w}\n{t}", b, bar=[TEAL, NAVY2, ORANGE, GREEN][i], tsize=18, bsize=15)
+    for i, (t, b) in enumerate(miles):
+        add_text(s, Inches(1.4 + i * 6.3), Inches(5.4), Inches(4.4), Inches(1.55), f"{t}\n{b}", size=16, color=DARK, align=PP_ALIGN.CENTER)
 
-    # 8 Deliverables + roles (was 14+15)
+    # 12 Deliverables
     s = blank(prs)
-    header(s, "DELIVERABLES & ROLES", "What we submit  ·  who does what", f)
+    header(s, "SUBMIT", "What the panel should see", f)
     dels = [
-        ("Source ZIP", "n8n JSON + prompts"),
-        ("Final PPT", "DEPI panel deck"),
-        ("Full docs", "Proposal + user guide"),
-        ("GitHub", "Create early. Never change URL."),
-        ("Video 2–5 min", "Problem → demo → result"),
-        ("15-min defense", "Each member’s role clear"),
+        ("Working bot", "Ask ID → lesson → quiz → sheet update."),
+        ("n8n JSON", "AdaptiveEdu_Telegram_Bot.json"),
+        ("Two Sheets", "Students + Curriculum links."),
+        ("This PPT", "Any teammate can present it."),
+        ("GitHub", "https://github.com/ahmedhamedali82/AdaptiveEdu"),
+        ("Video 2–5 min", "Problem → demo → Pass/Fail."),
     ]
     for i, (t, b) in enumerate(dels):
         r, c = divmod(i, 3)
-        card(s, Inches(0.4 + c * 4.22), Inches(1.15 + r * 1.85), Inches(4.05), Inches(1.7), LIGHT, t, b, bar=TEAL, tsize=15, bsize=13)
-    roles = "Leader: deadlines + GitHub  ·  n8n: workflow  ·  Prompts: templates  ·  Docs/video: PPT + film  ·  QA: tests + sheet log"
-    add_round(s, Inches(0.4), Inches(5.1), Inches(12.5), Inches(1.8), SOFT_BLUE)
-    add_text(s, Inches(0.7), Inches(5.35), Inches(12.0), Inches(0.4), "Team roles (fill names later)", size=16, bold=True, color=NAVY)
-    add_text(s, Inches(0.7), Inches(5.85), Inches(12.0), Inches(0.8), roles, size=15, color=DARK)
-
-    # 9 Do this week (was 16+17)
-    s = blank(prs)
-    header(s, "DO THIS WEEK", "Then we write the proposal document", f)
-    now = [
-        ("1", "Confirm name", "AdaptiveEdu"),
-        ("2", "Register team", "Form before deadline"),
-        ("3", "Create GitHub", "Empty repo. Link stays forever."),
-        ("4", "Draft proposal", "Problem · objectives · tools · outcomes"),
-        ("5", "Sketch n8n", "6 nodes on paper. Build in Week 3."),
-    ]
-    for i, (n, t, b) in enumerate(now):
-        y = 1.2 + i * 1.1
-        add_round(s, Inches(0.4), Inches(y), Inches(12.5), Inches(1.0), SOFT_TEAL if i % 2 == 0 else LIGHT)
-        add_round(s, Inches(0.55), Inches(y + 0.22), Inches(0.55), Inches(0.55), TEAL)
-        add_text(s, Inches(0.55), Inches(y + 0.22), Inches(0.55), Inches(0.55), n, size=16, bold=True, color=WHITE, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
-        add_text(s, Inches(1.35), Inches(y + 0.15), Inches(4.5), Inches(0.7), t, size=18, bold=True, color=NAVY, anchor=MSO_ANCHOR.MIDDLE)
-        add_text(s, Inches(6.0), Inches(y + 0.15), Inches(6.6), Inches(0.7), b, size=16, color=DARK, anchor=MSO_ANCHOR.MIDDLE)
+        card(s, Inches(0.4 + c * 4.22), Inches(1.15 + r * 2.9), Inches(4.05), Inches(2.7), LIGHT, t, b, bar=TEAL, tsize=18, bsize=16)
 
     prs.save(OUT)
     print(OUT)

@@ -1,0 +1,226 @@
+{
+  "name": "AdaptiveEdu — Telegram study bot",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": ["message"],
+        "additionalFields": {}
+      },
+      "id": "tg1",
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.1,
+      "position": [0, 240],
+      "webhookId": "adaptiveedu-telegram"
+    },
+    {
+      "parameters": {
+        "jsCode": "const msg = $input.first().json.message || $input.first().json;\nconst chatId = String(msg.chat && msg.chat.id ? msg.chat.id : '');\nconst text = String(msg.text || '').trim();\nconst up = text.toUpperCase();\nconst isId = /^S1-\\d{4}/i.test(text);\nconst isQuiz = !isId && /[A-D]/.test(up);\nreturn [{ json: { chatId, text, isId, isQuiz } }];"
+      },
+      "id": "c0",
+      "name": "Read message",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [220, 240]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "boolean": [{ "value1": "={{ $json.isId }}", "value2": true }]
+        }
+      },
+      "id": "ifType",
+      "name": "IF student ID",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [440, 240]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": { "__rl": true, "mode": "id", "value": "17A-hQ6jQ7QJrcZ4f5f02O82PKKAtQ2gTiJHtv71LWI4" },
+        "sheetName": { "__rl": true, "mode": "name", "value": "Students" },
+        "options": {}
+      },
+      "id": "stAll",
+      "name": "Get students",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [700, 80]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": { "__rl": true, "mode": "id", "value": "10JNorDKgaesXGobuq_9sHipzRp-DOjxGAFZEV5D7Hwk" },
+        "sheetName": { "__rl": true, "mode": "name", "value": "Lessons" },
+        "options": {}
+      },
+      "id": "lsAll",
+      "name": "Get lessons",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [920, 80]
+    },
+    {
+      "parameters": {
+        "jsCode": "const msg = $('Read message').first().json;\nconst raw = msg.text.trim();\nconst studentID = raw.split(/\\s+/)[0].toUpperCase();\nconst hint = raw.split(/\\s+/).slice(1).join(' ').toLowerCase();\nconst students = $('Get students').all().map((i) => i.json);\nconst student = students.find((s) => String(s.studentID).toUpperCase() === studentID);\nif (!student) {\n  return [{ json: { chatId: msg.chatId, outText: 'ID not found. Try S1-1001', skip: true } }];\n}\nlet subject = String(student.currentSubject || '').trim();\nif (hint) {\n  const hit = $('Get lessons').all().map((i) => i.json).find((l) => String(l.subjectName).toLowerCase().includes(hint));\n  if (hit) subject = hit.subjectName;\n}\nif (!subject) subject = 'Integrated Sciences';\nconst lessons = $('Get lessons').all().map((i) => i.json)\n  .filter((l) => String(l.subjectName) === subject)\n  .sort((a, b) => Number(a.lessonNumber) - Number(b.lessonNumber));\nlet n = Number(student.currentLesson || 0);\nif (String(student.lastResult) === 'Pass') n = n + 1;\nif (!n) n = 1;\nconst lesson = lessons.find((l) => Number(l.lessonNumber) === n) || lessons[0];\nif (!lesson) {\n  return [{ json: { chatId: msg.chatId, outText: `Hi ${student.firstName}. No more lessons in ${subject}.`, skip: true } }];\n}\nconst retry = String(student.lastResult) === 'Fail';\nconst easy = retry ? '\\nThis is a simpler retry of the same lesson.' : '';\nconst outText = `Hi ${student.firstName}.\\n\\nSubject: ${lesson.subjectName}\\nLesson ${lesson.lessonNumber}: ${lesson.lessonTitle}${easy}\\n\\n${lesson.materialText}\\n\\nQuiz — reply with 3 letters only, example:\\nC B A\\n\\n1) ${lesson.quizQ1}\\n2) ${lesson.quizQ2}\\n3) ${lesson.quizQ3}\\n\\nPass = ${lesson.passMark} or more out of 9.`;\nreturn [{ json: {\n  skip: false,\n  chatId: msg.chatId,\n  studentID: student.studentID,\n  firstName: student.firstName,\n  lastName: student.lastName,\n  subjectName: lesson.subjectName,\n  lessonID: lesson.lessonID,\n  lessonNumber: Number(lesson.lessonNumber),\n  passMark: Number(lesson.passMark || 5),\n  outText,\n}}];"
+      },
+      "id": "pick",
+      "name": "Pick next lesson",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1140, 80]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": { "__rl": true, "mode": "id", "value": "17A-hQ6jQ7QJrcZ4f5f02O82PKKAtQ2gTiJHtv71LWI4" },
+        "sheetName": { "__rl": true, "mode": "name", "value": "Students" },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "studentID": "={{ $json.studentID }}",
+            "telegramChatID": "={{ $json.chatId }}",
+            "currentSubject": "={{ $json.subjectName }}",
+            "currentLesson": "={{ $json.lessonNumber }}"
+          },
+          "matchingColumns": ["studentID"]
+        },
+        "options": {}
+      },
+      "id": "stOpen",
+      "name": "Save open lesson",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [1360, 0]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "text": "={{ $json.outText }}",
+        "additionalFields": {}
+      },
+      "id": "tgLesson",
+      "name": "Send lesson + quiz",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1580, 80]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": { "__rl": true, "mode": "id", "value": "17A-hQ6jQ7QJrcZ4f5f02O82PKKAtQ2gTiJHtv71LWI4" },
+        "sheetName": { "__rl": true, "mode": "name", "value": "Students" },
+        "options": {}
+      },
+      "id": "stQuiz",
+      "name": "Get students for quiz",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [700, 400]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": { "__rl": true, "mode": "id", "value": "10JNorDKgaesXGobuq_9sHipzRp-DOjxGAFZEV5D7Hwk" },
+        "sheetName": { "__rl": true, "mode": "name", "value": "Lessons" },
+        "options": {}
+      },
+      "id": "lsQuiz",
+      "name": "Get lessons for quiz",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [920, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "const msg = $('Read message').first().json;\nconst chatId = String(msg.chatId);\nconst students = $('Get students for quiz').all().map((i) => i.json);\nconst student = students.find((s) => String(s.telegramChatID) === chatId) || students.find((s) => String(s.telegramChatID) === String(chatId));\nif (!student || !student.currentLesson) {\n  return [{ json: { chatId, outText: 'Send your ID first, example: S1-1001', skip: true } }];\n}\nconst lesson = $('Get lessons for quiz').all().map((i) => i.json).find((l) =>\n  String(l.subjectName) === String(student.currentSubject) && Number(l.lessonNumber) === Number(student.currentLesson)\n);\nif (!lesson) {\n  return [{ json: { chatId, outText: 'No open lesson. Send your ID first.', skip: true } }];\n}\nconst letters = String(msg.text).toUpperCase().replace(/[^A-D]/g, ' ').trim().split(/\\s+/).filter(Boolean);\nlet score = 0;\nif (letters[0] === String(lesson.quizA1).toUpperCase()) score += 3;\nif (letters[1] === String(lesson.quizA2).toUpperCase()) score += 3;\nif (letters[2] === String(lesson.quizA3).toUpperCase()) score += 3;\nconst passMark = Number(lesson.passMark || 5);\nconst result = score >= passMark ? 'Pass' : 'Fail';\nconst nextTip = result === 'Pass'\n  ? 'Well done. Send your ID again for the next lesson.'\n  : 'Try the same lesson again. Send your ID. You will get a simpler explanation.';\nreturn [{ json: {\n  skip: false,\n  chatId,\n  studentID: student.studentID,\n  firstName: student.firstName,\n  lastName: student.lastName,\n  subjectName: lesson.subjectName,\n  lessonID: lesson.lessonID,\n  lessonNumber: Number(lesson.lessonNumber),\n  score,\n  result,\n  outText: `Hi ${student.firstName}.\\nScore: ${score}/9\\nResult: ${result}\\n\\n${nextTip}`,\n}}];"
+      },
+      "id": "grade",
+      "name": "Grade quiz",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1140, 400]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": { "__rl": true, "mode": "id", "value": "17A-hQ6jQ7QJrcZ4f5f02O82PKKAtQ2gTiJHtv71LWI4" },
+        "sheetName": { "__rl": true, "mode": "name", "value": "Students" },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "studentID": "={{ $json.studentID }}",
+            "lastScore": "={{ $json.score }}",
+            "lastResult": "={{ $json.result }}"
+          },
+          "matchingColumns": ["studentID"]
+        },
+        "options": {}
+      },
+      "id": "stUp",
+      "name": "Save score",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [1360, 320]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": { "__rl": true, "mode": "id", "value": "10JNorDKgaesXGobuq_9sHipzRp-DOjxGAFZEV5D7Hwk" },
+        "sheetName": { "__rl": true, "mode": "name", "value": "Results" },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "studentID": "={{ $json.studentID }}",
+            "fullName": "={{ $json.firstName }} {{ $json.lastName }}",
+            "subjectName": "={{ $json.subjectName }}",
+            "lessonID": "={{ $json.lessonID }}",
+            "lessonNumber": "={{ $json.lessonNumber }}",
+            "score": "={{ $json.score }}",
+            "result": "={{ $json.result }}",
+            "date": "={{ $now }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "log",
+      "name": "Append result",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [1360, 500]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.chatId }}",
+        "text": "={{ $json.outText }}",
+        "additionalFields": {}
+      },
+      "id": "tgRes",
+      "name": "Send result",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [1580, 400]
+    }
+  ],
+  "connections": {
+    "Telegram Trigger": { "main": [[{ "node": "Read message", "type": "main", "index": 0 }]] },
+    "Read message": { "main": [[{ "node": "IF student ID", "type": "main", "index": 0 }]] },
+    "IF student ID": {
+      "main": [
+        [{ "node": "Get students", "type": "main", "index": 0 }],
+        [{ "node": "Get students for quiz", "type": "main", "index": 0 }]
+      ]
+    },
+    "Get students": { "main": [[{ "node": "Get lessons", "type": "main", "index": 0 }]] },
+    "Get lessons": { "main": [[{ "node": "Pick next lesson", "type": "main", "index": 0 }]] },
+    "Pick next lesson": { "main": [[{ "node": "Save open lesson", "type": "main", "index": 0 }]] },
+    "Save open lesson": { "main": [[{ "node": "Send lesson + quiz", "type": "main", "index": 0 }]] },
+    "Get students for quiz": { "main": [[{ "node": "Get lessons for quiz", "type": "main", "index": 0 }]] },
+    "Get lessons for quiz": { "main": [[{ "node": "Grade quiz", "type": "main", "index": 0 }]] },
+    "Grade quiz": { "main": [[{ "node": "Save score", "type": "main", "index": 0 }]] },
+    "Save score": { "main": [[{ "node": "Append result", "type": "main", "index": 0 }]] },
+    "Append result": { "main": [[{ "node": "Send result", "type": "main", "index": 0 }]] }
+  },
+  "settings": { "executionOrder": "v1", "timezone": "Africa/Cairo" }
+}

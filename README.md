@@ -1,43 +1,50 @@
 # AdaptiveEdu
 
-DEPI Graduation Project — Personalized educational content generation using LLM + n8n.
+DEPI Graduation Project — a Telegram study bot for Egyptian 1st Secondary.
 
-**Important (DEPI):** This GitHub URL is fixed from the start. Do not rename or replace the repository.
+**GitHub (fixed URL):** https://github.com/ahmedhamedali82/AdaptiveEdu
 
-## Project idea
+## Idea
 
-AdaptiveEdu is a personalized AI tutoring agent. Each student asks for content; the agent generates a dynamic lesson for that student (not one fixed textbook for all).
+The student sends an ID. The bot sends **the lesson that is due**, then a short quiz.
 
-## Stack
+- **Pass (5 or more / 9)** → next lesson  
+- **Fail** → same lesson, simpler text  
+- Scores are saved in Google Sheets  
 
-- n8n (workflow automation)
-- LLM (ChatGPT / Gemini / Groq)
-- Google Sheets (student profiles + logs)
-- Telegram / Gmail (ask + deliver)
-- Prompt templates
+## Two Google Sheets
 
-## 4-week plan
+1. **Students**  
+   https://docs.google.com/spreadsheets/d/17A-hQ6jQ7QJrcZ4f5f02O82PKKAtQ2gTiJHtv71LWI4/edit?usp=sharing  
+   Tab: `Students` — n8n matches on `studentID`
 
-1. **Week 1** — Proposal + this GitHub repo  
-2. **Week 2** — Design n8n + prompts  
-3. **Week 3** — Build + test  
-4. **Week 4** — Docs, video, delivery  
+2. **Curriculum**  
+   https://docs.google.com/spreadsheets/d/10JNorDKgaesXGobuq_9sHipzRp-DOjxGAFZEV5D7Hwk/edit?usp=sharing  
+   Tabs: `Subjects` (read) · `Lessons` (read) · `Results` (append only)
 
-## Folder contents (so far)
+## How the student uses it
 
-- `AdaptiveEdu_Project_Plan.pptx` — project plan presentation  
-- `diagrams/` — workflow and milestone images  
-- `build_plan_pptx.py` — rebuild script for the plan deck  
+1. Send `S1-1001`  
+   Or `S1-1001 Integrated Sciences`  
+2. Bot sends lesson text + 3 questions  
+3. Reply with three letters: `C B A`  
+4. Bot sends Pass / Fail and writes the sheets  
 
-## Team
+## n8n
 
-- DEPI track: Applied AI Agents for Education  
-- Fill member names after team registration  
+**Delivery: 2 weeks.**
 
-## Deliverables (end)
+Import `AdaptiveEdu_Telegram_Bot.json`.
 
-- Source ZIP (n8n JSON + prompts)  
-- Final PPT  
-- Full documentation  
-- This GitHub link  
-- Video 2–5 minutes  
+Then connect:
+
+- Telegram bot credential on **Telegram Trigger**, **Send lesson + quiz**, **Send result**  
+- Google Sheets credential on all Sheets nodes  
+
+Keep tab names exactly: `Students`, `Lessons`, `Results`.
+
+## Files
+
+- `AdaptiveEdu_Project_Plan.pptx` — 2-week presentation for the panel  
+- `AdaptiveEdu_Telegram_Bot.json` — n8n workflow  
+- `AdaptiveEdu_Students.xlsx` / `AdaptiveEdu_Curriculum.xlsx` — source files for the two sheets  
