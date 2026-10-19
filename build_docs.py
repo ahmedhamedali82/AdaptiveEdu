@@ -325,7 +325,7 @@ def build_docs():
         doc,
         DEMO / "workflow_n8n.jpeg",
         width_in=6.2,
-        caption="Figure 1 — Live n8n canvas: ADAPTIVE_14 (~46 nodes).",
+        caption="Figure 1 — Live n8n canvas (ADAPTIVE_14, ~46 nodes): successful register path highlighted (ID → subjects list).",
     )
 
     heading(doc, "7. Tools and what each one does")

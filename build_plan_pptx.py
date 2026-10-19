@@ -275,11 +275,11 @@ def build():
 
     # 9 Live n8n canvas
     s = blank(prs)
-    header(s, "N8N CANVAS", "Live workflow ADAPTIVE_14 (46 nodes)", f)
+    header(s, "N8N CANVAS", "Live workflow ADAPTIVE_14 (46 nodes) — successful run", f)
     pic(s, DEMO / "workflow_n8n.jpeg", Inches(0.25), Inches(1.05), width=Inches(12.8))
     add_text(
         s, Inches(0.4), Inches(6.45), Inches(12.5), Inches(0.5),
-        "Three message types only:  student ID  ·  subject code  ·  answers Excel file",
+        "Green path: register / subject list.  Message types: student ID  ·  subject code  ·  answers Excel",
         size=15, bold=True, color=NAVY, align=PP_ALIGN.CENTER,
     )
 

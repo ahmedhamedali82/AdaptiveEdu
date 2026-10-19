@@ -8,19 +8,19 @@
         ],
         "additionalFields": {}
       },
-      "id": "42e91cdd-3270-4bb8-a7b2-dfe852032eff",
+      "id": "8e5ad366-0a89-476c-a7ee-928cde035526",
       "name": "Telegram Trigger",
       "type": "n8n-nodes-base.telegramTrigger",
       "typeVersion": 1.1,
       "position": [
-        -1776,
-        -144
+        1344,
+        1696
       ],
       "webhookId": "9bb181ba-e16b-408c-b1d3-e052a075d710",
       "credentials": {
         "telegramApi": {
-          "id": "WBZEGvxCmLxn6kYn",
-          "name": "Telegram account 4"
+          "id": "r1NYdRjLekiwXYAB",
+          "name": "Telegram account"
         }
       }
     },
@@ -48,19 +48,19 @@
         },
         "options": {}
       },
-      "id": "f7998dba-7289-4347-9245-02e259b5c942",
+      "id": "51c21ecd-f14d-44fb-bdc3-111d47de3b4f",
       "name": "Get row_by_chatid",
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        -1616,
-        -144
+        1504,
+        1696
       ],
       "alwaysOutputData": true,
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "KokQBsmf456Ct6JO",
-          "name": "Google Sheets account 2"
+          "id": "SNlxNlNuoF8yfd75",
+          "name": "Google Sheets account"
         }
       }
     },
@@ -88,13 +88,13 @@
         },
         "options": {}
       },
-      "id": "4bdd18f9-f810-4f5f-9862-b9efd094af1d",
+      "id": "f493e81a-4bc3-4cd8-8b07-8414c2d4691a",
       "name": "CHECH_WAITNG",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -1456,
-        -144
+        1664,
+        1696
       ]
     },
     {
@@ -122,13 +122,13 @@
         },
         "options": {}
       },
-      "id": "4f7063be-e297-4e7f-b436-e6728a5de929",
+      "id": "6beb3d1b-809a-4237-9618-6753d9940284",
       "name": "If1",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -1312,
-        -400
+        1808,
+        1440
       ]
     },
     {
@@ -137,19 +137,19 @@
         "fileId": "={{ $('Telegram Trigger').item.json.message.document.file_id }}",
         "additionalFields": {}
       },
-      "id": "963fea58-3f30-4053-9010-f842008fd906",
+      "id": "bf518a94-43b7-42b4-bfc1-d97914e4c65a",
       "name": "Get Answer File",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        -752,
-        -800
+        2368,
+        1040
       ],
       "webhookId": "e4fc0c34-21a7-4be6-8e81-c77f57210b83",
       "credentials": {
         "telegramApi": {
-          "id": "WBZEGvxCmLxn6kYn",
-          "name": "Telegram account 4"
+          "id": "r1NYdRjLekiwXYAB",
+          "name": "Telegram account"
         }
       }
     },
@@ -172,17 +172,17 @@
         },
         "options": {}
       },
-      "id": "b3210d80-1513-45a2-9c9e-e415fcbecef2",
+      "id": "af960143-3168-4d9b-b1dc-659b9916e68c",
       "name": "Get Answer File1",
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        -560,
-        -800
+        2560,
+        1040
       ],
       "credentials": {
         "googleDriveOAuth2Api": {
-          "id": "F6NvpLvVxsE1vZ7l",
+          "id": "aqhAbQLb9OmVGPZt",
           "name": "Google Drive account"
         }
       }
@@ -197,17 +197,17 @@
         },
         "options": {}
       },
-      "id": "3cf5e931-bf3a-452b-a4ca-d149a1b85d34",
+      "id": "1eb29257-fae4-4335-bcc9-a18219b8bcde",
       "name": "Download file",
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        -336,
-        -800
+        2784,
+        1040
       ],
       "credentials": {
         "googleDriveOAuth2Api": {
-          "id": "F6NvpLvVxsE1vZ7l",
+          "id": "aqhAbQLb9OmVGPZt",
           "name": "Google Drive account"
         }
       }
@@ -219,13 +219,13 @@
           "headerRow": false
         }
       },
-      "id": "53dfb763-325f-42d6-89d0-956bd81b8165",
+      "id": "21837170-f05e-46b7-9bc0-3c48758037ee",
       "name": "Extract from File",
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1.1,
       "position": [
-        -48,
-        -800
+        3072,
+        1040
       ]
     },
     {
@@ -256,20 +256,20 @@
         },
         "options": {}
       },
-      "id": "1ad63d01-d0aa-4f73-831d-c911231d10e4",
+      "id": "87ff188e-31d7-4e8c-a83e-9ba8459ff6f0",
       "name": "Get row(s) in sheet",
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        192,
-        -768
+        3312,
+        1072
       ],
       "executeOnce": true,
       "alwaysOutputData": true,
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "KokQBsmf456Ct6JO",
-          "name": "Google Sheets account 2"
+          "id": "SNlxNlNuoF8yfd75",
+          "name": "Google Sheets account"
         }
       }
     },
@@ -277,13 +277,13 @@
       "parameters": {
         "jsCode": "const student = $('Extract from File').first().json;\nconst model = $('Get row(s) in sheet').first().json;\n\n// إجابات الطالب موجودة داخل row\nconst studentAnswers = student.row || [];\n\nlet correct = 0;\nconst totalQuestions = 10;\n\nfor (let i = 1; i <= totalQuestions; i++) {\n\n    const studentAnswer = String(studentAnswers[i - 1] ?? '')\n        .trim()\n        .toUpperCase();\n\n    const modelAnswer = String(model[`ANS_${i}`] ?? '')\n        .trim()\n        .toUpperCase();\n\n    if (studentAnswer === modelAnswer) {\n        correct++;\n    }\n}\n\nconst grade = correct;\nconst success = grade > 6;\n\nreturn [{\n    json: {\n        student_id: model.sudent_id,\n        subject_code: model.subject_code,\n        lesson_id: model.lesson_id,\n        file_name: model.FILE_NAME,\n\n        correct_answers: correct,\n        total_questions: totalQuestions,\n        grade: grade,\n         succed: grade > 6 ? 1 : 0,\n        result: grade > 6 ? 'Pass' : 'Fail'\n       \n    }\n}];"
       },
-      "id": "9337d9c4-5184-4fe1-9708-34bd95d2d6a4",
+      "id": "ec5319e3-75da-4ca2-9f33-6bf39a9926f9",
       "name": "Code in JavaScript",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        480,
-        -784
+        3600,
+        1056
       ]
     },
     {
@@ -310,19 +310,19 @@
         },
         "options": {}
       },
-      "id": "1f339f67-85fe-4379-b793-ab8e1bc9633a",
+      "id": "00fd47a0-1ebd-4590-bd29-b4b6bcdd5464",
       "name": "Get subject",
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        -1088,
-        -400
+        2032,
+        1440
       ],
       "alwaysOutputData": true,
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "KokQBsmf456Ct6JO",
-          "name": "Google Sheets account 2"
+          "id": "SNlxNlNuoF8yfd75",
+          "name": "Google Sheets account"
         }
       }
     },
@@ -350,13 +350,13 @@
         },
         "options": {}
       },
-      "id": "2a6de6c7-cfcb-4e00-a555-2a4b54803538",
+      "id": "7b5ed2f9-511d-4ffd-9f77-084459d78356",
       "name": "subject_check",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -912,
-        -400
+        2208,
+        1440
       ]
     },
     {
@@ -380,20 +380,20 @@
           "returnFirstMatch": false
         }
       },
-      "id": "57167867-6ad3-465c-9228-c90151c2a2d7",
+      "id": "f78fc183-e986-4ed3-852c-b45772f7a75f",
       "name": "GET_PROGRESS",
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        -672,
-        -336
+        2448,
+        1504
       ],
       "executeOnce": true,
       "alwaysOutputData": true,
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "KokQBsmf456Ct6JO",
-          "name": "Google Sheets account 2"
+          "id": "SNlxNlNuoF8yfd75",
+          "name": "Google Sheets account"
         }
       },
       "onError": "continueRegularOutput"
@@ -422,20 +422,20 @@
         },
         "options": {}
       },
-      "id": "83966003-500d-41e4-9030-3455fbdcab92",
+      "id": "5e73cecf-5daf-4352-997e-14a983efd17a",
       "name": "Get Lessons Data",
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        -480,
-        -400
+        2640,
+        1440
       ],
       "executeOnce": true,
       "alwaysOutputData": true,
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "KokQBsmf456Ct6JO",
-          "name": "Google Sheets account 2"
+          "id": "SNlxNlNuoF8yfd75",
+          "name": "Google Sheets account"
         }
       }
     },
@@ -443,13 +443,13 @@
       "parameters": {
         "jsCode": "\n// =====================================================\n// get_file\n// تحديد الدرس التالي للطالب حسب student_progress\n// =====================================================\n\n// -----------------------------------------------------\n// 1) قراءة رقم المادة الذي أرسله الطالب\n// -----------------------------------------------------\nconst inputMessage = String(\n  $('Telegram Trigger').first()?.json?.message?.text || ''\n).trim();\n\nconst subjectCode = inputMessage;\n\n// -----------------------------------------------------\n// 2) الحصول على student_id\n// -----------------------------------------------------\nlet studentId = '';\n\ntry {\n  studentId = String(\n    $('Get row_by_chatid').first()?.json?.student_id ||\n    $('Search Chat ID in Sheet').first()?.json?.student_id ||\n    ''\n  ).trim();\n} catch (error) {\n  studentId = '';\n}\n\n// -----------------------------------------------------\n// 3) قراءة student_progress\n// -----------------------------------------------------\nconst progressRows = $('GET_PROGRESS')\n  .all()\n  .map(item => item.json);\n\n// -----------------------------------------------------\n// 4) قراءة Lessons_Data\n// -----------------------------------------------------\nconst lessonsRows = $('Get Lessons Data')\n  .all()\n  .map(item => item.json);\n\n// -----------------------------------------------------\n// دوال مساعدة\n// -----------------------------------------------------\n\nfunction normalize(value) {\n  return String(value ?? '').trim();\n}\n\nfunction numberValue(value) {\n  const n = Number(value);\n  return Number.isFinite(n) ? n : 0;\n}\n\n// -----------------------------------------------------\n// 5) استخراج دروس المادة المطلوبة فقط\n// -----------------------------------------------------\nconst subjectLessons = lessonsRows.filter(row => {\n  const rowSubjectCode = normalize(\n    row.subject_code ?? row.SUBJECT_CODE\n  );\n\n  return rowSubjectCode === subjectCode;\n});\n\n// -----------------------------------------------------\n// 6) إذا لم توجد المادة في Lessons_Data\n// -----------------------------------------------------\nif (subjectLessons.length === 0) {\n  return [{\n    json: {\n      status: 'ERROR',\n      message: 'كود المادة غير موجود في Lessons_Data',\n      student_id: studentId,\n      subject_code: subjectCode,\n      subject_name: '',\n      lesson_code: 0,\n      lesson_name: '',\n      file_name: ''\n    }\n  }];\n}\n\n// -----------------------------------------------------\n// 7) استخراج اسم المادة\n// -----------------------------------------------------\nconst subjectName =\n  subjectLessons[0].subject ??\n  subjectLessons[0].SUBJECT_NAME ??\n  subjectLessons[0].subject_name ??\n  '';\n\n// -----------------------------------------------------\n// 8) استخراج أكبر lesson_code موجود للمادة\n// -----------------------------------------------------\nconst validLessonCodes = subjectLessons\n  .map(row =>\n    numberValue(row.lesson_code ?? row.LESSON_CODE)\n  )\n  .filter(code => code > 0);\n\nconst maxLessonCode =\n  validLessonCodes.length > 0\n    ? Math.max(...validLessonCodes)\n    : 0;\n\n// -----------------------------------------------------\n// 9) استخراج سجلات الطالب لهذه المادة من student_progress\n// -----------------------------------------------------\nconst studentSubjectProgress = progressRows.filter(row => {\n\n  // الشيت عندك قد يحتوي sudent_id بالخطأ\n  // أو student_id\n  const rowStudentId = normalize(\n    row.sudent_id ?? row.student_id\n  );\n\n  const rowSubjectCode = normalize(\n    row.subject_code ?? row.SUBJECT_CODE\n  );\n\n  return (\n    rowStudentId === studentId &&\n    rowSubjectCode === subjectCode\n  );\n});\n\n// -----------------------------------------------------\n// 10) تحديد الدرس التالي\n// -----------------------------------------------------\nlet nextLessonCode = 1;\n\n// -----------------------------------------------------\n// الحالة الأولى:\n// لا يوجد أي سجل للطالب في هذه المادة\n// => يبدأ من الدرس رقم 1\n// -----------------------------------------------------\nif (studentSubjectProgress.length === 0) {\n\n  nextLessonCode = 1;\n\n} else {\n\n  // ---------------------------------------------------\n  // أخذ الدروس التي succeed = 1 فقط\n  // ---------------------------------------------------\n  const successfulLessons = studentSubjectProgress.filter(row => {\n\n    const succeed = normalize(row.succeed ?? row.succed).toLowerCase();\n\n    return (\n      succeed === '1' ||\n      succeed === 'true'\n    );\n  });\n\n  // ---------------------------------------------------\n  // إذا كان هناك دروس ناجحة\n  // => أكبر lesson_code + 1\n  // ---------------------------------------------------\n  if (successfulLessons.length > 0) {\n\n    const successfulCodes = successfulLessons\n      .map(row =>\n        numberValue(\n          row.lesson_code ?? row.lesson_id ?? row.LESSON_CODE\n        )\n      )\n      .filter(code => code > 0);\n\n    if (successfulCodes.length > 0) {\n\n      const maxSucceededLesson =\n        Math.max(...successfulCodes);\n\n      nextLessonCode = maxSucceededLesson + 1;\n\n    } else {\n\n      nextLessonCode = 1;\n    }\n\n  } else {\n\n    // توجد سجلات للطالب والمادة\n    // ولكن لم ينجح في أي درس\n    nextLessonCode = 1;\n  }\n}\n\n// -----------------------------------------------------\n// 11) التحقق هل الطالب أتم المنهج\n// -----------------------------------------------------\nif (\n  maxLessonCode > 0 &&\n  nextLessonCode > maxLessonCode\n) {\n\n  return [{\n    json: {\n      status: 'COMPLETED',\n      message: 'لقد أتممت منهج المادة',\n      student_id: studentId,\n      subject_code: subjectCode,\n      subject_name: subjectName,\n      lesson_code: 0,\n      lesson_name: '',\n      file_name: ''\n    }\n  }];\n}\n\n// -----------------------------------------------------\n// 12) البحث عن بيانات الدرس المطلوب\n// -----------------------------------------------------\nconst targetLesson = subjectLessons.find(row => {\n\n  const lessonCode = numberValue(\n    row.lesson_code ?? row.LESSON_CODE\n  );\n\n  return lessonCode === nextLessonCode;\n});\n\n// -----------------------------------------------------\n// 13) حماية إضافية:\n// إذا كان رقم الدرس محسوباً لكن غير موجود فعلياً\n// في Lessons_Data\n// -----------------------------------------------------\nif (!targetLesson) {\n\n  return [{\n    json: {\n      status: 'ERROR',\n      message: 'رقم الدرس المطلوب غير موجود في Lessons_Data',\n      student_id: studentId,\n      subject_code: subjectCode,\n      subject_name: subjectName,\n      lesson_code: nextLessonCode,\n      lesson_name: '',\n      file_name: ''\n    }\n  }];\n}\n\n// -----------------------------------------------------\n// 14) استخراج بيانات الدرس\n// -----------------------------------------------------\nconst lessonName =\n  targetLesson.lesson_name ??\n  targetLesson.lesson ??\n  targetLesson.LESSON_NAME ??\n  '';\n\nconst fileName =\n  targetLesson.file_name ??\n  targetLesson.FILE_NAME ??\n  '';\n\n// -----------------------------------------------------\n// 15) النتيجة النهائية\n// -----------------------------------------------------\nreturn [{\n  json: {\n    status: 'IN_PROGRESS',\n    message: 'تم استخراج الدرس بنجاح',\n\n    student_id: studentId,\n\n    subject_code: subjectCode,\n    subject_name: subjectName,\n\n    lesson_code: nextLessonCode,\n    lesson_name: lessonName,\n\n    file_name: fileName\n  }\n}];\n\n"
       },
-      "id": "61d2f132-d13c-49eb-938a-68731e6f9ab1",
+      "id": "02abcc5c-7279-434a-8e48-c3b35bd78267",
       "name": "get_file",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -288,
-        -384
+        2832,
+        1456
       ]
     },
     {
@@ -484,19 +484,19 @@
         },
         "options": {}
       },
-      "id": "59ab2f25-e845-4698-9ac7-2ff3c07e0b2f",
+      "id": "9e34daf1-5df2-4ed9-a753-edfd6d017c25",
       "name": "check_lesson_delivry",
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        -112,
-        -384
+        3008,
+        1456
       ],
       "alwaysOutputData": true,
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "KokQBsmf456Ct6JO",
-          "name": "Google Sheets account 2"
+          "id": "SNlxNlNuoF8yfd75",
+          "name": "Google Sheets account"
         }
       }
     },
@@ -606,18 +606,18 @@
         },
         "options": {}
       },
-      "id": "adc56d34-b79d-4cc7-9f3f-e52af43262d5",
+      "id": "e984e5a9-fb5c-46a8-9c1f-b282a6f41600",
       "name": "Update waiting_0",
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        32,
-        -384
+        3152,
+        1456
       ],
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "KokQBsmf456Ct6JO",
-          "name": "Google Sheets account 2"
+          "id": "SNlxNlNuoF8yfd75",
+          "name": "Google Sheets account"
         }
       }
     },
@@ -629,19 +629,19 @@
           "appendAttribution": false
         }
       },
-      "id": "e456c9cf-10f8-4170-84e4-408b8c2f065e",
+      "id": "d76db1ed-88fa-4694-981f-d10024dc73ec",
       "name": "error_lesson",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        656,
-        -576
+        3776,
+        1264
       ],
       "webhookId": "4047b39e-f0a4-4280-8a16-f7f7d1fe1356",
       "credentials": {
         "telegramApi": {
-          "id": "WBZEGvxCmLxn6kYn",
-          "name": "Telegram account 4"
+          "id": "r1NYdRjLekiwXYAB",
+          "name": "Telegram account"
         }
       }
     },
@@ -653,19 +653,19 @@
           "appendAttribution": false
         }
       },
-      "id": "813019fe-0f67-42b2-9c7b-712b4327c894",
+      "id": "3bf1456a-f684-4af3-9184-7efc13456c55",
       "name": "send_file",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        1632,
-        -384
+        4752,
+        1456
       ],
       "webhookId": "060c5fe4-847d-4ba9-885a-e918cad4e653",
       "credentials": {
         "telegramApi": {
-          "id": "WBZEGvxCmLxn6kYn",
-          "name": "Telegram account 4"
+          "id": "r1NYdRjLekiwXYAB",
+          "name": "Telegram account"
         }
       }
     },
@@ -686,18 +686,18 @@
           }
         }
       },
-      "id": "9ae62021-57f0-4a90-a9e7-e7961b806d0a",
+      "id": "c853333d-537f-4fcc-997c-8c9985507243",
       "name": "Send a message",
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.2,
       "position": [
-        1680,
-        -592
+        4800,
+        1248
       ],
       "webhookId": "50d820ee-fee6-4c52-9d01-6e4d73f78a4f",
       "credentials": {
         "gmailOAuth2": {
-          "id": "bNglh766GrLSUPP6",
+          "id": "mDQb1kfAXsm1moSD",
           "name": "Gmail account"
         }
       }
@@ -710,19 +710,19 @@
           "appendAttribution": false
         }
       },
-      "id": "022cd139-eba7-4b09-833a-c23cdced8e7a",
+      "id": "4d301996-7732-4acd-8e5a-d48d7c9a77ef",
       "name": "error_subject",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        -640,
-        -528
+        2480,
+        1312
       ],
       "webhookId": "91c84163-fa54-4b58-b836-2ae2472ed342",
       "credentials": {
         "telegramApi": {
-          "id": "WBZEGvxCmLxn6kYn",
-          "name": "Telegram account 4"
+          "id": "r1NYdRjLekiwXYAB",
+          "name": "Telegram account"
         }
       }
     },
@@ -754,19 +754,19 @@
         },
         "options": {}
       },
-      "id": "9fca78d6-693c-470e-96f1-a76cfaa6e552",
+      "id": "e5f71b26-6e24-4aa5-9c22-74c444e5954e",
       "name": "Search Chat ID in Sheet",
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
       "position": [
-        -1152,
-        -112
+        1968,
+        1728
       ],
       "alwaysOutputData": true,
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "KokQBsmf456Ct6JO",
-          "name": "Google Sheets account 2"
+          "id": "SNlxNlNuoF8yfd75",
+          "name": "Google Sheets account"
         }
       }
     },
@@ -805,13 +805,13 @@
         },
         "options": {}
       },
-      "id": "ec99b4db-fa63-4fed-a4c2-2b43c3073ba2",
+      "id": "30ce314d-0a9f-4a86-a36f-597061e40dad",
       "name": "check_student_id ",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -992,
-        -112
+        2128,
+        1728
       ]
     },
     {
@@ -830,18 +830,18 @@
         },
         "options": {}
       },
-      "id": "75f998a8-a628-42a5-8720-2b97cd120349",
+      "id": "ccf5a1ae-bd3d-4f8b-8c55-1a20cd818d9e",
       "name": "Get Subjects",
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.5,
       "position": [
-        -368,
-        -144
+        2752,
+        1696
       ],
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "KokQBsmf456Ct6JO",
-          "name": "Google Sheets account 2"
+          "id": "SNlxNlNuoF8yfd75",
+          "name": "Google Sheets account"
         }
       }
     },
@@ -849,13 +849,13 @@
       "parameters": {
         "jsCode": "const items = $input.all();\n\n// إنشاء قائمة نصية مرقمة باستخدام كود المادة واسم المادة من الجدول\nconst subjectsList = items.map(item => {\n  const code = item.json.SUBJECT_CODE || \"\";\n  const name = item.json.subject || \"مادة\";\n  return `${code} - ${name}`;\n}).join('\\n');\n\nconst studentName = $('Search Chat ID in Sheet').first().json.student_name || \"الطالب\";\n\nreturn {\n  json: {\n text_message: `أهلاً بك يا ${studentName} 👋 في AdaptiveEdu 🎓\n\nبرجاء إرسال رقم المادة من القائمة التالية:\n\n${subjectsList}\n\n📎او ارسال ملف الاجابات المراد تصحيحه.`\n  }  }"
       },
-      "id": "9f55a163-8d5c-46d4-be72-1bf6e35dfa50",
+      "id": "20f2d956-1af2-4b2e-9662-8706bd34e9f6",
       "name": "subject_display_code",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -144,
-        -128
+        2976,
+        1712
       ]
     },
     {
@@ -866,19 +866,19 @@
           "appendAttribution": false
         }
       },
-      "id": "d8d709f9-9f60-4e53-b77b-1a587e1d7b90",
+      "id": "57020b9f-63f1-4c55-9843-a4ea5b3dd85d",
       "name": "subject_display",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        96,
-        -128
+        3216,
+        1712
       ],
       "webhookId": "4f316a9a-2eaa-41fa-8251-cd431c3eff6f",
       "credentials": {
         "telegramApi": {
-          "id": "WBZEGvxCmLxn6kYn",
-          "name": "Telegram account 4"
+          "id": "r1NYdRjLekiwXYAB",
+          "name": "Telegram account"
         }
       }
     },
@@ -994,18 +994,18 @@
         },
         "options": {}
       },
-      "id": "c4ede632-4aa6-4e0d-b612-0084b0b01890",
+      "id": "1af9403b-4c9e-4b7d-a042-2437f18c79ce",
       "name": "Update_waitig_1",
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        304,
-        -112
+        3424,
+        1728
       ],
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "KokQBsmf456Ct6JO",
-          "name": "Google Sheets account 2"
+          "id": "SNlxNlNuoF8yfd75",
+          "name": "Google Sheets account"
         }
       }
     },
@@ -1042,13 +1042,13 @@
         },
         "options": {}
       },
-      "id": "c27347c7-155a-4266-bc1a-5aaaf297f4c2",
+      "id": "b474d81c-c622-437a-b443-4ae41f449060",
       "name": "check_new_student",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -752,
-        -32
+        2368,
+        1808
       ]
     },
     {
@@ -1059,19 +1059,19 @@
           "appendAttribution": false
         }
       },
-      "id": "325c0103-f855-4140-bc07-ac3a8ac2dfae",
+      "id": "e64da004-7c62-4799-8ba4-43006afe436f",
       "name": "erorr_student_code",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        -576,
-        -224
+        2544,
+        1616
       ],
       "webhookId": "d8f3242c-2a0e-484a-87b5-98944743a1b6",
       "credentials": {
         "telegramApi": {
-          "id": "WBZEGvxCmLxn6kYn",
-          "name": "Telegram account 4"
+          "id": "r1NYdRjLekiwXYAB",
+          "name": "Telegram account"
         }
       }
     },
@@ -1174,18 +1174,18 @@
         },
         "options": {}
       },
-      "id": "1cff561a-47bd-45a7-a93f-64ee09e311ec",
+      "id": "0c8d0497-7222-4821-be37-45e51572bfa7",
       "name": "Update_chat_id",
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        -528,
-        -32
+        2592,
+        1808
       ],
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "KokQBsmf456Ct6JO",
-          "name": "Google Sheets account 2"
+          "id": "SNlxNlNuoF8yfd75",
+          "name": "Google Sheets account"
         }
       }
     },
@@ -1393,15 +1393,15 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        720,
-        -800
+        3840,
+        1040
       ],
-      "id": "96ce3e99-9ccb-4273-b091-4370136e8507",
+      "id": "b01b5257-5927-4900-9a19-c9c77f73bfae",
       "name": "Update row in sheet",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "KokQBsmf456Ct6JO",
-          "name": "Google Sheets account 2"
+          "id": "SNlxNlNuoF8yfd75",
+          "name": "Google Sheets account"
         }
       }
     },
@@ -1511,18 +1511,18 @@
         },
         "options": {}
       },
-      "id": "3d2ccf86-759c-4ea2-8582-fbf1509660ee",
+      "id": "629019a3-96cd-40a9-8fcc-6d92ad6ef1eb",
       "name": "Update waiting_",
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        912,
-        -800
+        4032,
+        1040
       ],
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "KokQBsmf456Ct6JO",
-          "name": "Google Sheets account 2"
+          "id": "SNlxNlNuoF8yfd75",
+          "name": "Google Sheets account"
         }
       }
     },
@@ -1536,18 +1536,18 @@
           "appendAttribution": false
         }
       },
-      "id": "1c58211b-7205-43f1-a171-6ddbaac0d56f",
+      "id": "680db3b0-e47b-43b1-86ab-a5a57bd58c56",
       "name": "Send a message1",
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.2,
       "position": [
-        1136,
-        -800
+        4256,
+        1040
       ],
       "webhookId": "b34bb452-75a1-4148-837e-bfd574ce579b",
       "credentials": {
         "gmailOAuth2": {
-          "id": "bNglh766GrLSUPP6",
+          "id": "mDQb1kfAXsm1moSD",
           "name": "Gmail account"
         }
       }
@@ -1563,16 +1563,16 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        1280,
-        -800
+        4400,
+        1040
       ],
-      "id": "4b24d14e-d912-4238-a268-eeaa5927f61a",
+      "id": "94a0aaff-0551-4d07-8847-46a6ef5ae693",
       "name": "Send a text message",
       "webhookId": "dad54719-b1f0-4727-9994-e3a479853254",
       "credentials": {
         "telegramApi": {
-          "id": "WBZEGvxCmLxn6kYn",
-          "name": "Telegram account 4"
+          "id": "r1NYdRjLekiwXYAB",
+          "name": "Telegram account"
         }
       }
     },
@@ -1604,10 +1604,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        -992,
-        -752
+        2128,
+        1088
       ],
-      "id": "a4f09d3a-74ff-49ea-a462-f67aa061c8b5",
+      "id": "efbc6012-810f-43bc-8286-de19b3bdadfb",
       "name": "If2"
     },
     {
@@ -1641,15 +1641,15 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        -1152,
-        -752
+        1968,
+        1088
       ],
-      "id": "995abb4b-0514-49fc-a798-123e7913de77",
+      "id": "06b2d742-c93b-42a3-ad6f-67a33192cc88",
       "name": "file_check",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "KokQBsmf456Ct6JO",
-          "name": "Google Sheets account 2"
+          "id": "SNlxNlNuoF8yfd75",
+          "name": "Google Sheets account"
         }
       }
     },
@@ -1664,16 +1664,16 @@
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        -816,
-        -624
+        2304,
+        1216
       ],
-      "id": "284a2bc1-18a5-4a5e-968a-3f081d33409c",
+      "id": "f93daa61-7600-4cab-aa98-f5ceaefe90ca",
       "name": "file_error",
       "webhookId": "23abc6de-fa1f-4c59-a403-06e3a20d1a30",
       "credentials": {
         "telegramApi": {
-          "id": "WBZEGvxCmLxn6kYn",
-          "name": "Telegram account 4"
+          "id": "r1NYdRjLekiwXYAB",
+          "name": "Telegram account"
         }
       }
     },
@@ -1890,18 +1890,18 @@
         },
         "options": {}
       },
-      "id": "315af46d-32cf-4297-8d09-6c02786142a5",
+      "id": "54ee7174-e0e8-41de-b027-203cb51b23ff",
       "name": "add_lesson",
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        1488,
-        -384
+        4608,
+        1456
       ],
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "KokQBsmf456Ct6JO",
-          "name": "Google Sheets account 2"
+          "id": "SNlxNlNuoF8yfd75",
+          "name": "Google Sheets account"
         }
       }
     },
@@ -1930,13 +1930,13 @@
         },
         "options": {}
       },
-      "id": "44386887-8762-4fd4-ba89-3e83ac72d57f",
+      "id": "88fd7beb-cc0c-45da-b642-dcda074b24d1",
       "name": "If_delivery",
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        432,
-        -384
+        3552,
+        1456
       ]
     },
     {
@@ -1948,10 +1948,10 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        608,
-        -400
+        3728,
+        1440
       ],
-      "id": "efa213f2-644f-4f26-918e-c84cb0439ce0",
+      "id": "8a00e128-53ea-40fa-90ba-27156a153fa8",
       "name": "AI Agent"
     },
     {
@@ -1961,24 +1961,24 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        896,
-        -384
+        4016,
+        1456
       ],
-      "id": "c39af52e-6c44-4cc2-9cfe-24c02625f9bc",
+      "id": "c75fb06c-693a-4371-9582-94f7e891d19b",
       "name": "Code in JavaScript1"
     },
     {
       "parameters": {
-        "modelName": "models/gemini-2.5-flash",
+        "modelName": "models/gemini-3.5-flash",
         "options": {}
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1.2,
       "position": [
-        592,
-        -224
+        3712,
+        1616
       ],
-      "id": "54e2af03-a609-4bdd-b9ed-92ec7a352012",
+      "id": "b8b4ac93-4d2b-4876-8b0a-241bc5a897e4",
       "name": "Google Gemini Chat Model",
       "credentials": {
         "googlePalmApi": {
@@ -1995,10 +1995,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1072,
-        -384
+        4192,
+        1456
       ],
-      "id": "3e16e642-8239-424e-980c-5e924385bf7a",
+      "id": "0d40f041-37f9-432d-ba5b-3f88b7e63f37",
       "name": "Format Lesson HTML"
     },
     {
@@ -2029,10 +2029,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.5,
       "position": [
-        1232,
-        -384
+        4352,
+        1456
       ],
-      "id": "dff9f862-b731-48ab-aca9-40cf95aca554",
+      "id": "36672e2f-11f8-4d3a-bb2e-040b4b65c245",
       "name": "HTTP Request"
     },
     {
@@ -2062,10 +2062,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        224,
-        -384
+        3344,
+        1456
       ],
-      "id": "c39d24f9-7f71-482b-b92a-635f1d936312",
+      "id": "b3cc6a6a-9962-430b-958d-381ea82ad9ca",
       "name": "If"
     },
     {
@@ -2076,19 +2076,19 @@
           "appendAttribution": false
         }
       },
-      "id": "403b388a-9992-4c6c-a99b-55d3426d2631",
+      "id": "0dce2a9e-a9b3-43a3-b287-b19ba84bd719",
       "name": "finished_lesson",
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
       "position": [
-        352,
-        -592
+        3472,
+        1248
       ],
       "webhookId": "4047b39e-f0a4-4280-8a16-f7f7d1fe1356",
       "credentials": {
         "telegramApi": {
-          "id": "WBZEGvxCmLxn6kYn",
-          "name": "Telegram account 4"
+          "id": "r1NYdRjLekiwXYAB",
+          "name": "Telegram account"
         }
       }
     }
@@ -2290,11 +2290,6 @@
             "index": 0
           }
         ]
-      ]
-    },
-    "send_file": {
-      "main": [
-        []
       ]
     },
     "Search Chat ID in Sheet": {
@@ -2569,20 +2564,17 @@
       ]
     }
   },
-  "active": true,
+  "active": false,
   "settings": {
     "executionOrder": "v1",
-    "binaryMode": "separate",
-    "availableInMCP": true,
-    "timeSavedMode": "fixed",
-    "callerPolicy": "workflowsFromSameOwner"
+    "binaryMode": "separate"
   },
-  "versionId": "72f799a7-0913-4225-b025-7ac7c5c6deb1",
+  "versionId": "78d6c60f-df77-4277-b1ec-21979244383a",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "35af0a99a625a3ad18f2f07f98fc68b0b722729bf46fa5369f3f5eab02129af8"
+    "instanceId": "e776de9112b679fdf2f97bb61701152efb45c0e2d3dfb70d7689d55e4242065e"
   },
   "nodeGroups": [],
-  "id": "TIEVm7hKg628DnIe",
+  "id": "3zznhKB5LjpnAmjV",
   "tags": []
 }
