@@ -6,3 +6,6 @@
 **/credentials*
 __pycache__/
 .venv/
+Modifications_2026-10-13/*.opus
+AdaptiveEdu_old.json
+AdaptiveEdu_GitHub_*.docx

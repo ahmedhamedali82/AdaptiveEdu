@@ -1,50 +1,43 @@
 # AdaptiveEdu
 
-DEPI Graduation Project — a Telegram study bot for Egyptian 1st Secondary.
+DEPI Graduation Project — live Telegram study bot for Egyptian 1st Secondary.
 
-**GitHub (fixed URL):** https://github.com/ahmedhamedali82/AdaptiveEdu
+**Bot:** https://t.me/AdaptiveEdubot  
+**GitHub:** https://github.com/ahmedhamedali82/AdaptiveEdu
 
 ## Idea
 
-The student sends an ID. The bot sends **the lesson that is due**, then a short quiz.
+1. Student sends ID (`ST005`)  
+2. Chooses subject code `1–8`  
+3. Gemini builds the next lesson as **PDF + 10 MCQs**  
+4. Student receives the **PDF attached by email** and uploads Excel answers (`ST005_4_1.xlsx`)  
+5. **Pass if grade > 6 / 10** · else **Fail** and restudy the same lesson  
 
-- **Pass (5 or more / 9)** → next lesson  
-- **Fail** → same lesson, simpler text  
-- Scores are saved in Google Sheets  
+Results go by **Gmail**. Progress is saved in Google Sheets.
 
-## Two Google Sheets
+## Three Google Sheets
 
-1. **Students**  
-   https://docs.google.com/spreadsheets/d/17A-hQ6jQ7QJrcZ4f5f02O82PKKAtQ2gTiJHtv71LWI4/edit?usp=sharing  
-   Tab: `Students` — n8n matches on `studentID`
+1. **Students_Data** — https://docs.google.com/spreadsheets/d/1m8rzYDXa7817vFFcd1bqszegV0orMgxA8AyyOEyYl1s  
+2. **Lessons_Data** — https://docs.google.com/spreadsheets/d/1FUfTrazMkwUSOi1NzrC9D4FKqGhTUJ1KPdb-lLCUyY0  
+3. **student_progress** — https://docs.google.com/spreadsheets/d/18C6AQaF5evsGaI4upz1vxbCgnE8jhxJfVfQS3-R5KPk  
 
-2. **Curriculum**  
-   https://docs.google.com/spreadsheets/d/10JNorDKgaesXGobuq_9sHipzRp-DOjxGAFZEV5D7Hwk/edit?usp=sharing  
-   Tabs: `Subjects` (read) · `Lessons` (read) · `Results` (append only)
+## Excel answer file
 
-## How the student uses it
-
-1. Send `S1-1001`  
-   Or `S1-1001 Integrated Sciences`  
-2. Bot sends lesson text + 3 questions  
-3. Reply with three letters: `C B A`  
-4. Bot sends Pass / Fail and writes the sheets  
+- Name: `ST{id}_{subject}_{lesson}.xlsx` (example `ST005_4_1.xlsx`)  
+- One row, 10 capital letters, **no header**
 
 ## n8n
 
-**Delivery: 2 weeks.**
+Import `AdaptiveEdu.json` (workflow **ADAPTIVE_14**, ~46 nodes).
 
-Import `AdaptiveEdu_Telegram_Bot.json`.
+Connect Telegram · Google Sheets · Gmail · Drive · Gemini · PDFShift (HTTP Request) credentials.
 
-Then connect:
-
-- Telegram bot credential on **Telegram Trigger**, **Send lesson + quiz**, **Send result**  
-- Google Sheets credential on all Sheets nodes  
-
-Keep tab names exactly: `Students`, `Lessons`, `Results`.
+Lesson PDF path: Gemini Markdown → Format Lesson HTML → PDFShift convert → Gmail **PDF attachment**.
 
 ## Files
 
-- `AdaptiveEdu_Project_Plan.pptx` — 2-week presentation for the panel  
-- `AdaptiveEdu_Telegram_Bot.json` — n8n workflow  
-- `AdaptiveEdu_Students.xlsx` / `AdaptiveEdu_Curriculum.xlsx` — source files for the two sheets  
+- `AdaptiveEdu_Project_Plan.pptx` — panel slides (journey + n8n steps + live shots)  
+- `AdaptiveEdu_Project_Documentation.docx` — full project documentation  
+- `AdaptiveEdu_Video_demo_steps.docx` — 2–5 min video demo steps (EN + AR)  
+- `AdaptiveEdu.json` — n8n workflow  
+- `diagrams/demo/` — bot, lesson email, Pass/Fail emails, Excel style, canvas  
