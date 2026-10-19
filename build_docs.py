@@ -23,9 +23,9 @@ RED = RGBColor(185, 28, 28)
 
 GITHUB = "https://github.com/ahmedhamedali82/AdaptiveEdu"
 BOT = "https://t.me/AdaptiveEdubot"
-SHEET_STU = "https://docs.google.com/spreadsheets/d/1m8rzYDXa7817vFFcd1bqszegV0orMgxA8AyyOEyYl1s"
-SHEET_LES = "https://docs.google.com/spreadsheets/d/1FUfTrazMkwUSOi1NzrC9D4FKqGhTUJ1KPdb-lLCUyY0"
-SHEET_PRG = "https://docs.google.com/spreadsheets/d/18C6AQaF5evsGaI4upz1vxbCgnE8jhxJfVfQS3-R5KPk"
+SHEET_STU = "https://docs.google.com/spreadsheets/d/1ddIwenYjiwKryP7Pogxe-7qsjKnTmtfCtAlDoplSn5Q"
+SHEET_LES = "https://docs.google.com/spreadsheets/d/1akeM65odle57kxtR7M5LqFMnxCsHX3M1cJKKltExFEg"
+SHEET_PRG = "https://docs.google.com/spreadsheets/d/1II6ckyiKFucKsC38PC_0a9tH1h8H0JZe3qaclLxCExY"
 
 SUBJECTS = [
     ("1", "Arabic Language"),

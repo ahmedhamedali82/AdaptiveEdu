@@ -17,9 +17,9 @@ Results go by **Gmail**. Progress is saved in Google Sheets.
 
 ## Three Google Sheets
 
-1. **Students_Data** — https://docs.google.com/spreadsheets/d/1m8rzYDXa7817vFFcd1bqszegV0orMgxA8AyyOEyYl1s  
-2. **Lessons_Data** — https://docs.google.com/spreadsheets/d/1FUfTrazMkwUSOi1NzrC9D4FKqGhTUJ1KPdb-lLCUyY0  
-3. **student_progress** — https://docs.google.com/spreadsheets/d/18C6AQaF5evsGaI4upz1vxbCgnE8jhxJfVfQS3-R5KPk  
+1. **Students_Data** — https://docs.google.com/spreadsheets/d/1ddIwenYjiwKryP7Pogxe-7qsjKnTmtfCtAlDoplSn5Q  
+2. **Lessons_Data** — https://docs.google.com/spreadsheets/d/1akeM65odle57kxtR7M5LqFMnxCsHX3M1cJKKltExFEg  
+3. **student_progress** — https://docs.google.com/spreadsheets/d/1II6ckyiKFucKsC38PC_0a9tH1h8H0JZe3qaclLxCExY  
 
 ## Excel answer file
 
