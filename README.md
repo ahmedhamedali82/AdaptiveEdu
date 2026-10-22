@@ -39,5 +39,3 @@ A student registers once on the Telegram bot, chooses a subject, receives an AI-
 4. Lesson 2 (Health & Movement) delivered automatically; wrong answers scored 5/10 (Fail).
 5. Requesting another lesson while lesson 2 is open is refused by the bot.
 6. Subject 7 starts Programming & AI from lesson 1 (Coding Fundamentals).
-
-Note: the raw 13-minute screen recording (1.2 GB) exceeds GitHub's file-size limit and is kept locally in the project folder `Modification_2026_10_22`.
