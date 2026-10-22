@@ -1,43 +1,43 @@
 # AdaptiveEdu
 
-DEPI Graduation Project — live Telegram study bot for Egyptian 1st Secondary.
+Adaptive Telegram-based learning system - DEPI Graduation Project (Final version, 22 October 2026).
 
-**Bot:** https://t.me/AdaptiveEdubot  
-**GitHub:** https://github.com/ahmedhamedali82/AdaptiveEdu
+A student registers once on the Telegram bot, chooses a subject, receives an AI-generated lesson as a PDF by e-mail with a 10-question quiz, uploads his answers as an Excel file, and gets graded automatically. Pass (more than 6/10) unlocks the next lesson; Fail keeps the same lesson open for a retake. A new lesson cannot be requested while a previous one is unanswered, and a new subject can always be started from lesson 1.
 
-## Idea
+- Bot: https://t.me/AdaptiveEdubot
+- Workflow: `AdaptiveEdu.json` - n8n workflow ADAPTIVE_14 (48 nodes). Before importing, put your own PDFShift API key in the HTTP Request node (the committed file contains `YOUR_PDFSHIFT_API_KEY`).
 
-1. Student sends ID (`ST005`)  
-2. Chooses subject code `1–8`  
-3. Gemini builds the next lesson as **PDF + 10 MCQs**  
-4. Student receives the **PDF attached by email** and uploads Excel answers (`ST005_4_1.xlsx`)  
-5. **Pass if grade > 6 / 10** · else **Fail** and restudy the same lesson  
+## Team
 
-Results go by **Gmail**. Progress is saved in Google Sheets.
+| Team member | E-mail |
+|---|---|
+| Ehab Mohamed Abdellatif Zaki (Team Leader) | eh_latif@hotmail.com |
+| Ahmed Hamed Mohamed Elfeky | ahmed.hamedmohamed1@gmail.com |
+| Aamn Ehab Sayed Mohamed | aamnehab100@gmail.com |
+| Abdelrahman Khaled Abdelmenium Younis | abdelrahmanyonis1@gmail.com |
+| Mahmoud Abdelsalam Elsayed Alsisi | alsisiagric84@live.com |
 
-## Three Google Sheets
+## Final materials in this repository
 
-1. **Students_Data** — https://docs.google.com/spreadsheets/d/1ddIwenYjiwKryP7Pogxe-7qsjKnTmtfCtAlDoplSn5Q  
-2. **Lessons_Data** — https://docs.google.com/spreadsheets/d/1akeM65odle57kxtR7M5LqFMnxCsHX3M1cJKKltExFEg  
-3. **student_progress** — https://docs.google.com/spreadsheets/d/1II6ckyiKFucKsC38PC_0a9tH1h8H0JZe3qaclLxCExY  
+| File | Description |
+|---|---|
+| `AdaptiveEdu_Demo.mp4` | Final demo video (4:21, 1080p) with synchronised Egyptian male voice-over |
+| `AdaptiveEdu_Project_Documentation.docx` | Full project documentation (architecture, sheets, workflow steps, live evidence) |
+| `AdaptiveEdu_Project_Plan.pptx` | Project presentation (19 slides) |
+| `AdaptiveEdu.json` | Final n8n workflow export (sanitised - no secrets) |
+| `Students_Data.xlsx` | Students sheet (codes, Telegram IDs, e-mails, status) |
+| `Lessons_Data.xlsx` | Curriculum: 8 subjects and their ordered lessons |
+| `student_progress.xlsx` | Progress log: answer keys, grades, success flags |
+| `ST005_8_1.xlsx`, `ST005_8_2.xlsx` | Answer files used in the final live demo |
+| `Screenshots/` | 17 screenshots from the final live run (bot, sheets, Drive, e-mails, PDF) |
 
-## Excel answer file
+## Live demo scenario (as recorded)
 
-- Name: `ST{id}_{subject}_{lesson}.xlsx` (example `ST005_4_1.xlsx`)  
-- One row, 10 capital letters, **no header**
+1. ST005 registers - Telegram chat ID saved automatically, subjects list received.
+2. Subject 8 (Physical Education), lesson 1 Sports Skills - PDF + quiz by e-mail.
+3. First answers graded 4/10 (Fail) - retake with corrected answers graded 10/10 (Pass).
+4. Lesson 2 (Health & Movement) delivered automatically; wrong answers scored 5/10 (Fail).
+5. Requesting another lesson while lesson 2 is open is refused by the bot.
+6. Subject 7 starts Programming & AI from lesson 1 (Coding Fundamentals).
 
-## n8n
-
-Import `AdaptiveEdu.json` (workflow **ADAPTIVE_14**, ~46 nodes).
-
-Connect Telegram · Google Sheets · Gmail · Drive · Gemini · PDFShift (HTTP Request) credentials.
-
-Lesson PDF path: Gemini Markdown → Format Lesson HTML → PDFShift convert → Gmail **PDF attachment**.
-
-## Files
-
-- `AdaptiveEdu_Project_Plan.pptx` — panel slides (journey + n8n steps + live shots)  
-- `AdaptiveEdu_Project_Documentation.docx` — full project documentation  
-- `AdaptiveEdu_Video_demo_steps.docx` — 2–5 min video demo steps (EN + AR)  
-- `AdaptiveEdu.json` — n8n workflow  
-- `diagrams/demo/` — bot, lesson email, Pass/Fail emails, Excel style, canvas  
+Note: the raw 13-minute screen recording (1.2 GB) exceeds GitHub's file-size limit and is kept locally in the project folder `Modification_2026_10_22`.
